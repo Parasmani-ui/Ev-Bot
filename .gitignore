@@ -1,0 +1,60 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development
+
+# Temporary documentation folders
+checksd
+checks
+
+# Firebase Admin SDK Credentials (CRITICAL - DO NOT COMMIT!)
+*firebase-adminsdk*.json
+serviceAccountKey.json
+firebase-private-key.json
+
+# Keep these Firebase files (these SHOULD be committed):
+# firestore.rules
+# firestore.indexes.json
+# firebase.json (if you have it)
+
+# Large files
+knowledge base/*.pdf
+
+# Build outputs
+build
+.vercel
+
+# OS files
+Thumbs.db
+
+# Backup files
+*.backup
+*.bak
+*.tmp
+knowledge base
