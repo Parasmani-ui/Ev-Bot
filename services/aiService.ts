@@ -1,12 +1,15 @@
 import { checkRateLimit } from "./rateLimitService";
+import { runAI, type OpenAIMessage } from "./openaiService";
 
 /**
  * Load Jharkhand EV Policy context from environment variables
  * This keeps the sensitive knowledge base private and secure
  */
-const EV_POLICY_CONTEXT = process.env.EV_POLICY_CONTEXT || "Jharkhand Electric Vehicle Policy 2022 - Comprehensive Knowledge Base (See fallback responses for full details)";
+const EV_POLICY_CONTEXT =
+  import.meta.env.VITE_EV_POLICY_CONTEXT ||
+  "Jharkhand Electric Vehicle Policy 2022 - Comprehensive Knowledge Base (See fallback responses for full details)";
 
-export const getGeminiResponse = async (userPrompt: string, clientId?: string): Promise<string> => {
+export const getAIResponse = async (userPrompt: string, clientId?: string): Promise<string> => {
   // Validate input
   if (!userPrompt || userPrompt.trim().length === 0) {
     return "Please enter a question about the Jharkhand EV Policy.";
@@ -20,12 +23,28 @@ export const getGeminiResponse = async (userPrompt: string, clientId?: string): 
     return `⏳ **Rate limit exceeded.** Please try again in ${retryAfter} seconds.\n\nReminder: You can ask up to 100 questions every 15 minutes. Thank you for your patience!`;
   }
 
+  const systemPrompt = `You are the Jharkhand Policy Bot. Answer only using the provided policy context.
+If the user asks outside the policy scope, politely ask them to rephrase.
+Give concise, structured answers with bullet points when helpful.
+
+Policy Context:
+${EV_POLICY_CONTEXT}`;
+
+  const messages: OpenAIMessage[] = [
+    { role: 'system', content: systemPrompt },
+    { role: 'user', content: userPrompt }
+  ];
+
   try {
-    // Using comprehensive local fallback context (no API required)
-    console.log("✅ Using comprehensive local fallback context with full policy details");
+    const aiResponse = await runAI(messages, 2000);
+    if (aiResponse && aiResponse.trim().length > 0) {
+      return aiResponse.trim();
+    }
+
+    console.warn('AI response empty, using local fallback.');
     return getFallbackResponse(userPrompt);
   } catch (error) {
-    console.error("Error:", error);
+    console.error('AI error, using local fallback:', error);
     return getFallbackResponse(userPrompt);
   }
 };

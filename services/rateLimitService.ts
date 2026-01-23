@@ -13,7 +13,10 @@ interface RateLimitStore {
 
 const store: RateLimitStore = {};
 const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
-const MAX_REQUESTS = parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100', 10);
+const MAX_REQUESTS = parseInt(
+  import.meta.env.VITE_RATE_LIMIT_MAX_REQUESTS || '100',
+  10
+);
 
 /**
  * Get client IP address (works in Vercel environment)

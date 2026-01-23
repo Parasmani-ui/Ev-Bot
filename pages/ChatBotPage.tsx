@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage, UserQueryRecord } from '../types';
-import { getGeminiResponse } from '../services/geminiService';
+import { getAIResponse } from '../services/aiService';
 import { dbService } from '../services/dbService';
 
 const ChatBotPage: React.FC = () => {
@@ -38,7 +38,7 @@ const ChatBotPage: React.FC = () => {
     setInput('');
     setIsTyping(true);
 
-    const responseText = await getGeminiResponse(input, sessionId);
+    const responseText = await getAIResponse(input, sessionId);
 
     const modelMsg: ChatMessage = {
       id: (Date.now() + 1).toString(),

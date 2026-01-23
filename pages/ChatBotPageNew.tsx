@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage } from '../types';
-import { getGeminiResponse } from '../services/geminiService';
+import { getAIResponse } from '../services/aiService';
 import { firestoreService } from '../services/firestoreService';
 import { authService } from '../services/authService';
 
@@ -98,7 +98,7 @@ const ChatBotPage: React.FC<ChatBotPageProps> = ({
       }
 
       // Get AI response
-      const responseText = await getGeminiResponse(input, sessionId);
+      const responseText = await getAIResponse(input, sessionId);
 
       const modelMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),

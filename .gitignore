@@ -26,12 +26,16 @@ dist-ssr
 # Environment variables
 .env
 .env.local
+.env.*.local
 .env.production
 .env.development
+!.env.example
 
 # Temporary documentation folders
 checksd
 checks
+scripts
+
 
 # Firebase Admin SDK Credentials (CRITICAL - DO NOT COMMIT!)
 *firebase-adminsdk*.json
@@ -44,7 +48,7 @@ firebase-private-key.json
 # firebase.json (if you have it)
 
 # Large files
-knowledge base/*.pdf
+*.pdf
 
 # Build outputs
 build
