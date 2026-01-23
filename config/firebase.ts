@@ -2,16 +2,24 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
-// Your Firebase configuration from Firebase Console
+// Firebase configuration from environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyBnUFo0orDDzyH_Abj7RwAznD3v4YwftLY",
-  authDomain: "ev-chatbot-f18d3.firebaseapp.com",
-  projectId: "ev-chatbot-f18d3",
-  storageBucket: "ev-chatbot-f18d3.firebasestorage.app",
-  messagingSenderId: "1035071919615",
-  appId: "1:1035071919615:web:37e1365829fcd98a2b03ca",
-  measurementId: "G-5X0GT8R5N7"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
+
+// Validate configuration
+if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+  throw new Error(
+    'Firebase configuration is missing! Please check your .env.local file.\n' +
+    'Required variables: VITE_FIREBASE_API_KEY, VITE_FIREBASE_PROJECT_ID, etc.'
+  );
+}
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
