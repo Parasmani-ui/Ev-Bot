@@ -9,6 +9,16 @@ const EV_POLICY_CONTEXT =
   import.meta.env.VITE_EV_POLICY_CONTEXT ||
   "Jharkhand Electric Vehicle Policy 2022 - Comprehensive Knowledge Base (See fallback responses for full details)";
 
+const sanitizeResponse = (text: string): string => {
+  return text
+    .replace(/\*/g, "")
+    .replace(
+      /Please refer to the official policy document or contact the relevant authorities for precise rebate figures\.?/i,
+      "Please contact Dept. of Industries Govt of Jharkhand"
+    )
+    .trim();
+};
+
 export const getAIResponse = async (userPrompt: string, clientId?: string): Promise<string> => {
   // Validate input
   if (!userPrompt || userPrompt.trim().length === 0) {
@@ -38,7 +48,7 @@ ${EV_POLICY_CONTEXT}`;
   try {
     const aiResponse = await runAI(messages, 2000);
     if (aiResponse && aiResponse.trim().length > 0) {
-      return aiResponse.trim();
+      return sanitizeResponse(aiResponse.trim());
     }
 
     console.warn('AI response empty, using local fallback.');
@@ -58,7 +68,7 @@ const getFallbackResponse = (userPrompt: string): string => {
   
   // Early return for greetings and general inquiries
   if (['hello', 'hi', 'hey', 'help'].some(word => query === word)) {
-    return `Hello! Welcome to the  Jharkhand Policy Bot 
+    return sanitizeResponse(`Hello! Welcome to the  Jharkhand Policy Bot 
 
 I'm your official guide to the Jharkhand Electric Vehicle Policy 2022* and state industrial policies.
 
@@ -92,7 +102,7 @@ I'm your official guide to the Jharkhand Electric Vehicle Policy 2022* and state
 • "Charging infrastructure benefits?"
 • "Road tax waiver details?"
 
-How may I assist you today?`;
+How may I assist you today?`);
   }
   
   // Comprehensive keyword-based responses covering ALL aspects of the policy
@@ -1292,12 +1302,12 @@ Want specific details on consumer benefits, manufacturing incentives, charging i
   // Check for keyword matches
   for (const { keywords, response } of keywordResponses) {
     if (keywords.test(query)) {
-      return response.trim();
+      return sanitizeResponse(response.trim());
     }
   }
   
   // Default fallback when no keywords match
-  return `Thank you for reaching out!
+  return sanitizeResponse(`Thank you for reaching out!
 
 As the **Jharkhand Policy Bot**, I provide comprehensive information about the **Jharkhand Electric Vehicle Policy 2022**.
 
@@ -1332,5 +1342,5 @@ As the **Jharkhand Policy Bot**, I provide comprehensive information about the *
 • "Road tax waiver details?"
 • "Complete application process?"
 
-**How can I help you today?** 😊`;
+**How can I help you today?** 😊`);
 };
