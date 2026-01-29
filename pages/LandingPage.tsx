@@ -81,7 +81,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onTryNow }) => {
         </div>
       </section>
 
-      <footer className="py-12 bg-slate-50 border-t border-slate-200 text-center">
+      <footer className="py-2 bg-slate-50 border-t border-slate-200 text-center">
         <img src="/Jharkhand_Rajakiya_Chihna.png" alt="Small Logo" className="w-10 h-10 mx-auto mb-4 opacity-50" />
         <p className="text-slate-500 text-sm">© 2026 Government of Jharkhand. Department of Industries.</p>
       </footer>

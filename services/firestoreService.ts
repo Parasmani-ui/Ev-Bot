@@ -10,10 +10,11 @@ import {
   getDoc,
   Timestamp,
   updateDoc,
-  arrayUnion
+  arrayUnion,
+  deleteDoc
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
-import { UserQueryRecord } from '../types';
+import { ChatSession, UserQueryRecord } from '../types';
 
 /**
  * Firestore Service for managing user sessions and queries
@@ -48,7 +49,7 @@ export const getOrCreateSession = async (userId: string): Promise<string> => {
 /**
  * Get all sessions for a user
  */
-export const getUserSessions = async (userId: string) => {
+export const getUserSessions = async (userId: string): Promise<ChatSession[]> => {
   try {
     const q = query(
       collection(db, SESSIONS_COLLECTION),
@@ -57,10 +58,17 @@ export const getUserSessions = async (userId: string) => {
     );
     
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
+    return querySnapshot.docs.map(docSnapshot => {
+      const data = docSnapshot.data();
+      return {
+        id: docSnapshot.id,
+        userId: data.userId || '',
+        title: data.title || 'New Conversation',
+        createdAt: data.createdAt,
+        lastActivityAt: data.lastActivityAt,
+        messageCount: data.messageCount || 0
+      };
+    });
   } catch (error) {
     console.error('Error getting user sessions:', error);
     return [];
@@ -259,14 +267,14 @@ export const deleteSession = async (sessionId: string): Promise<void> => {
     );
     const querySnapshot = await getDocs(q);
     
-    const deletePromises = querySnapshot.docs.map(doc => 
-      doc.ref.delete()
+    const deletePromises = querySnapshot.docs.map(docSnapshot =>
+      deleteDoc(docSnapshot.ref)
     );
     await Promise.all(deletePromises);
     
     // Delete the session
     const sessionRef = doc(db, SESSIONS_COLLECTION, sessionId);
-    await sessionRef.delete();
+    await deleteDoc(sessionRef);
     
     console.log('Session deleted successfully');
   } catch (error) {

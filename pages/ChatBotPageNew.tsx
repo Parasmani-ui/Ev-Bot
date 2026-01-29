@@ -132,7 +132,7 @@ const ChatBotPage: React.FC<ChatBotPageProps> = ({
   };
 
   return (
-    <div className="flex h-[calc(100vh-80px)] bg-slate-50 relative">
+    <div className="flex h-screen bg-slate-50 relative">
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col">
         {/* Loading Overlay */}

@@ -6,7 +6,6 @@ import LandingPage from './pages/LandingPage';
 import HomePage from './pages/HomePage';
 import ChatBotPage from './pages/ChatBotPageNew';
 import AdminPage from './pages/AdminPageNew';
-import Navbar from './components/NavbarNew';
 import { firestoreService } from './services/firestoreService';
 import { authService } from './services/authService';
 
@@ -75,15 +74,12 @@ const App: React.FC = () => {
         currentSessionId={currentSessionId}
         onSelectSession={handleSelectSession}
         onNewChat={handleNewChat}
+        onLogin={handleAdminLogin}
+        onLogout={handleAdminLogout}
+        adminSession={adminSession}
       />
       
       <div className="flex-grow flex flex-col ml-0 lg:ml-[250px] transition-all duration-300">
-        <Navbar 
-          onLogin={handleAdminLogin} 
-          onLogout={handleAdminLogout} 
-          adminSession={adminSession}
-        />
-        
         <main className="flex-grow">
           {currentView === AppView.LANDING && (
             <LandingPage onTryNow={() => navigateTo(AppView.CHATBOT)} />

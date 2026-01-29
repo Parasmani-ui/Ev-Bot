@@ -14,7 +14,31 @@ const sanitizeResponse = (text: string): string => {
     .replace(/\*/g, "")
     .replace(
       /Please refer to the official policy document or contact the relevant authorities for precise rebate figures\.?/i,
-      "Please contact Dept. of Industries Govt of Jharkhand"
+      ""
+    )
+    .replace(
+      /Please check with local authorities or authorized dealers for specific discounts or schemes related to electric auto-rickshaws\.?/i,
+      ""
+    )
+    .replace(
+      /For detailed subsidy amounts and eligibility criteria, please refer to the official policy documentation\.?/i,
+      ""
+    )
+    .replace(
+      /please refer to the official policy document\.?/gi,
+      ""
+    )
+    .replace(
+      /please refer to the official policy documentation\.?/gi,
+      ""
+    )
+    .replace(
+      /please check with local authorities\.?/gi,
+      ""
+    )
+    .replace(
+      /authorized dealers?/gi,
+      ""
     )
     .trim();
 };
@@ -36,6 +60,7 @@ export const getAIResponse = async (userPrompt: string, clientId?: string): Prom
   const systemPrompt = `You are the Jharkhand Policy Bot. Answer only using the provided policy context.
 If the user asks outside the policy scope, politely ask them to rephrase.
 Give concise, structured answers with bullet points when helpful.
+Do not suggest to contact to any authority/document if the user asks question not related/present in the policy context.
 
 Policy Context:
 ${EV_POLICY_CONTEXT}`;

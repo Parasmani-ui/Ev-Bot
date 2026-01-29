@@ -34,7 +34,7 @@ dist-ssr
 # Temporary documentation folders
 checksd
 checks
-scripts
+scriptst
 
 
 # Firebase Admin SDK Credentials (CRITICAL - DO NOT COMMIT!)

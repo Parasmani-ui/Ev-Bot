@@ -62,7 +62,7 @@ const ChatBotPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-80px)] bg-slate-50">
+    <div className="flex flex-col h-screen bg-slate-50">
       {/* <div className="p-4 bg-white border-b border-slate-100 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <img src="/Jharkhand_Rajakiya_Chihna.png" alt="Bot" className="w-10 h-10 rounded-full bg-slate-100 p-1" />
