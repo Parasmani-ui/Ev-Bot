@@ -97,8 +97,14 @@ const ChatBotPage: React.FC<ChatBotPageProps> = ({
         onSessionChange(sessionId);
       }
 
-      // Get AI response
-      const responseText = await getAIResponse(input, sessionId);
+      // Build conversation history from last 6 messages (3 turns) for context
+      const history = messages.slice(-6).map((m) => ({
+        role: m.role === 'model' ? 'assistant' : m.role,
+        content: m.text
+      }));
+
+      // Get AI response with conversation history
+      const responseText = await getAIResponse(input, sessionId, history);
 
       const modelMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
