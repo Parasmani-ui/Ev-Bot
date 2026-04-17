@@ -104,7 +104,7 @@ const ChatBotPage: React.FC<ChatBotPageProps> = ({
       }));
 
       // Get AI response with conversation history
-      const responseText = await getAIResponse(input, sessionId, history);
+      const responseText = await getAIResponse(input, sessionId ?? undefined, history);
 
       const modelMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
