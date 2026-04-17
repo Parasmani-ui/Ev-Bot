@@ -42,6 +42,12 @@ export const getAIResponse = async (
     return `⏳   Rate limit exceeded.   Please try again in ${retryAfter} seconds.\n\nReminder: You can ask up to 100 questions every 15 minutes. Thank you for your patience!`;
   }
 
+  // If a keyword matched locally, return it immediately — no API quota used
+  const localResponse = getFallbackResponse(userPrompt);
+  if (!localResponse.startsWith('I can help you with questions about the Jharkhand Electric Vehicle Policy 2022.')) {
+    return localResponse;
+  }
+
   const systemPrompt = `You are the Jharkhand EV Policy Bot. You answer questions ONLY based on the Jharkhand Electric Vehicle Policy 2022 provided below.
 
 STRICT RULES:
