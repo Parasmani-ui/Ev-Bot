@@ -12,8 +12,8 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     define: {
       // Allow either VITE_* or legacy names in .env.local
-      'import.meta.env.VITE_OPENAI_API_KEY': JSON.stringify(
-        env.VITE_OPENAI_API_KEY || env.OPENAI_API_KEY || ''
+      'import.meta.env.VITE_GEMINI_API_KEY': JSON.stringify(
+        env.VITE_GEMINI_API_KEY || env.GEMINI_API_KEY || ''
       ),
       'import.meta.env.VITE_EV_POLICY_CONTEXT': JSON.stringify(
         env.VITE_EV_POLICY_CONTEXT || env.EV_POLICY_CONTEXT || ''
